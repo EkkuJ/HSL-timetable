@@ -6,16 +6,16 @@ import { ApolloProvider } from 'react-apollo'
 import ApolloClient from 'apollo-boost'
 
 const client = new ApolloClient({
-    uri: 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql'
+  uri: 'https://api.digitransit.fi/routing/v1/routers/hsl/index/graphql'
 })
 
 test('Plan fetches data and displys it', async () => {
-    const { getAllByText, queryAllByTestId } = render(
+  const { getAllByText, queryAllByTestId } = render(
     <ApolloProvider client={client}>
-        <Plan/>
+      <Plan/>
     </ApolloProvider>
-    )
- 
-    const initialData = await waitForElement(()=> getAllByText('1053'))
-    expect(queryAllByTestId('test')).toBeInTheDocument
+  )
+
+  const initialData = await waitForElement(() => getAllByText('1053'))
+  expect(queryAllByTestId('test')).toBeInTheDocument
 })
