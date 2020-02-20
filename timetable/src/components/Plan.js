@@ -24,7 +24,7 @@ function Plan () {
   if (error) return <p>Error :(</p>
 
   return data.plan.itineraries.map(({ duration }) => (
-    <div key={duration}>
+    <div key={duration} data-testid="test">
       <p>
         {duration}
       </p>
