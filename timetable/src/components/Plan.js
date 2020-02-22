@@ -48,32 +48,40 @@ const GET_PLAN = gql`
 `
 
 // A Plan represents a group of three itineraries. It gets passed the date and time by the paenting InfoScreen.
-function Plan ({ date, time }) {
-
+function Plan (date) {
+  var queryDate = dateAt(date).date
+  var queryTime = dateAt(date).time
   const { loading, error, data } = useQuery(GET_PLAN, {
-    variables: { date, time }
+    variables: { queryDate, queryTime }
   })
-
+  var itineraryID = -1
+  var legID = -1
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
   return (
     <div className="plan" id="plan">
-      {data.plan.itineraries.map(itinerary => (
-        <div className="itinerary">
-          <p className="itinerary-header">
-            itinerary, duration: <span data-testid="duration">{itinerary.duration}</span>
-          </p>
-          <div className="itinerary-legs">
-            legs: {itinerary.legs.map(leg => (
-              <div className="leg">
-                from: {leg.from.name} at {dateAt(leg.startTime).time}<br />
-                to: {leg.to.name} at {dateAt(leg.endTime).time}<br />
-                with: {leg.mode}
-              </div>
-            ))}
+      {data.plan.itineraries.map(itinerary => {
+        itineraryID += 1
+        return (
+          <div className="itinerary" key={itineraryID}>
+            <p className="itinerary-header">
+              itinerary, duration: <span data-testid="duration">{itinerary.duration}</span>
+            </p>
+            <div className="itinerary-legs">
+              legs: {itinerary.legs.map(leg => {
+                legID += 1
+                return (
+                  <div className="leg" key={legID}>
+                    from: {leg.from.name} at {dateAt(leg.startTime).time}<br />
+                    to: {leg.to.name} at {dateAt(leg.endTime).time}<br />
+                    with: {leg.mode}
+                  </div>
+                )
+              })}
+            </div>
           </div>
-        </div>
-      ))}
+        )
+      })}
     </div>
   )
 }

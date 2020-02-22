@@ -1,16 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import Plan from './Plan'
-import { dateNow } from '../utils/useTime'
+import PlanForm from './PlanForm'
+import BikePlan from './BikePlan'
+import { UTCminNow } from '../utils/useTime'
 
-// The infoscreen represents everything that is displayed.
+// The infoscreen represents everything that is displayed. Holds the time-state.
 function InfoScreen () {
-  const [plan, setPlan] = useState(<Plan date={dateNow().date} time ={dateNow().time}/>)
-  useEffect(() => {
-    setPlan(<Plan date={dateNow().date} time={dateNow().time} />)
-  }, [])
+  const [screenDate, setScreenDate] = useState(UTCminNow())
+  function handleFormSubmit (formTime) {
+    setScreenDate(formTime)
+  }
   return (
-    <div>
-      {plan}
+    <div className="InfoScreen">
+      <PlanForm date={screenDate} handleSubmit={handleFormSubmit} />
+      <Plan date={screenDate} />
+      <BikePlan date={screenDate} />
     </div>
   )
 }

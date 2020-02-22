@@ -1,4 +1,9 @@
 
+export function UTCminNow () {
+  var now = new Date()
+  return now.getTime()
+}
+
 export function dateNow () {
   var now = new Date()
   var ss = String(now.getSeconds()).padStart(2, '0')
