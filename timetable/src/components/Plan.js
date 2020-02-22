@@ -61,7 +61,7 @@ function Plan ({ date, time }) {
       {data.plan.itineraries.map(itinerary => (
         <div className="itinerary">
           <p className="itinerary-header">
-            itinerary, duration: {itinerary.duration}
+            itinerary, duration: <span data-testid="duration">{itinerary.duration}</span>
           </p>
           <div className="itinerary-legs">
             legs: {itinerary.legs.map(leg => (
