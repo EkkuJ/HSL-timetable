@@ -3,7 +3,6 @@ import { dateAt } from '../utils/useTime'
 
 // The BikePlan represents a segment that displays a plan to get to work with a bike.
 function BikePlan (date) {
-  
   return (
     <div>
       <p>
