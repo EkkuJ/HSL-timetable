@@ -1,7 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import { dateAt } from '../utils/useTime'
+import { Segment } from 'semantic-ui-react'
+import Leg from './Leg'
+import { dateAt, secsToMins } from '../utils/useTime'
 
 // Lat and Long coordinates of "home" and Eficode used in the query below.
 const home = {
@@ -48,40 +50,38 @@ const GET_PLAN = gql`
 `
 
 // A Plan represents a group of three itineraries. It gets passed the date and time by the paenting InfoScreen.
-function Plan (date) {
-  var queryDate = dateAt(date).date
-  var queryTime = dateAt(date).time
+function Plan (props) {
+
   const { loading, error, data } = useQuery(GET_PLAN, {
-    variables: { queryDate, queryTime }
+    options: props => ({
+      variables: { 
+        date: dateAt(props.date).date, 
+        time: dateAt(props.date).time}
+    })
   })
-  var itineraryID = -1
-  var legID = -1
+
+  
+
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
+  //console.log(dateAt(data.plan.itineraries[0].legs[0].startTime))
   return (
-    <div className="plan" id="plan">
-      {data.plan.itineraries.map(itinerary => {
-        itineraryID += 1
-        return (
-          <div className="itinerary" key={itineraryID}>
-            <p className="itinerary-header">
-              itinerary, duration: <span data-testid="duration">{itinerary.duration}</span>
-            </p>
-            <div className="itinerary-legs">
-              legs: {itinerary.legs.map(leg => {
-                legID += 1
-                return (
-                  <div className="leg" key={legID}>
-                    from: {leg.from.name} at {dateAt(leg.startTime).time}<br />
-                    to: {leg.to.name} at {dateAt(leg.endTime).time}<br />
-                    with: {leg.mode}
-                  </div>
-                )
-              })}
-            </div>
-          </div>
-        )
-      })}
+    <div className="planContainer" id="plan">
+      {data.plan.itineraries.map((itinerary) => (
+        <Segment className="itinerary" key={itinerary.startTime}>
+          <p className="itinerary-header">
+            duration: <span data-testid="duration">{secsToMins(itinerary.duration)}</span>
+          </p>
+          <Segment.Group className="itinerary-legs" horizontal>
+            {itinerary.legs.map((leg) => { 
+              //console.log(dateAt(leg.startTime.valueOf()))
+              return <Leg key={leg.startTime.valueOf()} leg={leg}/>
+            })}
+          </Segment.Group>
+        </Segment>
+
+      ))}
+
     </div>
   )
 }

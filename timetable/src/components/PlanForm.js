@@ -1,27 +1,26 @@
 import React, { useState } from 'react'
+import { Form, Button } from 'semantic-ui-react'
+import { UTCmilAt } from '../utils/useTime'
 
 // The PlanForm is the segment of the page that holds the form of the site. 
 // Has the ability to change the time-state of the whole site.
-function PlanForm (date, handleSubmit) {
+function PlanForm (props) {
 
-  const [formDate, setFormDate] = useState(date)
+  const [formDate, setFormDate] = useState("")
 
   function handleFormSubmit () {
-    handleSubmit(formDate)
-  }
-
-  function handleFormChange (event) {
-    setFormDate(event.target.value)
+    
+    props.handleSubmit(UTCmilAt(formDate))
   }
 
   return (
-    <form className="PlanForm" onSubmit={e => handleFormSubmit(e)}>
-      <label>
-        Leave at:
-        <input type="text" name="start-time" onChange={({ target }) => handleFormChange(target.value)} placeholder="Date input" />
-        <input type="submit" value="Submit" />
-      </label>
-    </form>
+    <Form className="PlanForm" onSubmit={() => handleFormSubmit()}>
+      <Form.Field>
+        <label>Leave At:</label>
+        <input type="text" name="leve-time" onChange={e => setFormDate(e.target.value)} placeholder="e.g. 07:30" />
+      </Form.Field>
+      <Button type="submit">Submit</Button>
+    </Form>
   )
 }
 

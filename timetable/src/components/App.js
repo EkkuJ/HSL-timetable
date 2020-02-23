@@ -10,7 +10,7 @@ const client = new ApolloClient({
 
 // The whole app. Wraps an ApolloProvider around the InfoScreen.
 const App = () => {
-  return (<div>
+  return (<div className="App">
     <ApolloProvider client={client}>
       <InfoScreen/>
     </ApolloProvider>
