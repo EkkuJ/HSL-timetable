@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useQuery } from '@apollo/react-hooks'
 import { gql } from 'apollo-boost'
-import { Segment } from 'semantic-ui-react'
+import { Grid, Container, Segment, Header } from 'semantic-ui-react'
 import Leg from './Leg'
 import { dateAt, secsToMins } from '../utils/useTime'
 
@@ -51,38 +51,38 @@ const GET_PLAN = gql`
 
 // A Plan represents a group of three itineraries. It gets passed the date and time by the paenting InfoScreen.
 function Plan (props) {
-
+  var queryVariables = dateAt(props.date)
   const { loading, error, data } = useQuery(GET_PLAN, {
-    options: props => ({
-      variables: { 
-        date: dateAt(props.date).date, 
-        time: dateAt(props.date).time}
-    })
+    variables: {
+      date: queryVariables.date,
+      time: queryVariables.time
+    }
   })
-
-  
-
   if (loading) return <p>Loading...</p>
   if (error) return <p>Error :(</p>
-  //console.log(dateAt(data.plan.itineraries[0].legs[0].startTime))
   return (
-    <div className="planContainer" id="plan">
+    <Container className="planContainer" id="plan">
       {data.plan.itineraries.map((itinerary) => (
-        <Segment className="itinerary" key={itinerary.startTime}>
-          <p className="itinerary-header">
-            duration: <span data-testid="duration">{secsToMins(itinerary.duration)}</span>
-          </p>
-          <Segment.Group className="itinerary-legs" horizontal>
-            {itinerary.legs.map((leg) => { 
-              //console.log(dateAt(leg.startTime.valueOf()))
-              return <Leg key={leg.startTime.valueOf()} leg={leg}/>
-            })}
-          </Segment.Group>
+        <Segment>
+          <Grid className="itinerary" key={itinerary.startTime} verticalAlign="middle" columns={2} style={{background:"#cceaff"}}>
+            <Grid.Column width={14} stretched='true'>
+              <Grid className="itinerary-legs" >
+                {itinerary.legs.map((leg) => (
+                  <Grid.Column width={5} stretched='true' verticalAlign="middle">
+                    <Leg key={leg.startTime.valueOf()} leg={leg} style={{ padding: '1em' }} />
+                  </Grid.Column>
+                ))}
+              </Grid>
+            </Grid.Column>
+            <Grid.Column width={2}>
+              <Segment className="itinerary-duration" stretched>
+                <Header as='h4' data-testid="duration">{secsToMins(itinerary.duration)}min</Header>
+              </Segment>
+            </Grid.Column>
+          </Grid>
         </Segment>
-
       ))}
-
-    </div>
+    </Container>
   )
 }
 
