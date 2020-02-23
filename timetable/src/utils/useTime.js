@@ -1,9 +1,19 @@
 
-export function UTCminNow () {
+// Utility funcions to handle time-props.
+
+export function secsToMins (secs) {
+  return Math.ceil(secs / 60)
+}
+export function UTCmilNow () {
   var now = new Date()
   return now.getTime()
 }
 
+export function addMinsToDate (date, mins) {
+  return date + mins * 60000
+}
+
+// Current time as Object with attributes date <YYYY-MM-DD> and time <HH:MM:SS>.
 export function dateNow () {
   var now = new Date()
   var ss = String(now.getSeconds()).padStart(2, '0')
@@ -21,9 +31,11 @@ export function dateNow () {
   }
 }
 
+// Moment defined with UTCmil as Object with attributes date <YYYY-MM-DD> and time <HH:MM:SS>.
 export function dateAt (UTCmil) {
   var date = new Date()
   date.setTime(UTCmil)
+  console.trace(date)
   var ss = String(date.getSeconds()).padStart(2, '0')
   var mins = String(date.getMinutes()).padStart(2, '0')
   var hh = String(date.getHours()).padStart(2, '0')
@@ -37,4 +49,15 @@ export function dateAt (UTCmil) {
     date: dateNow,
     time: timeNow
   }
+}
+
+// Today's UTC milliseconds from timestamp defined with param time.
+export function UTCmilAt (time) {
+  const hh = Number(time.split(':')[0])
+  const mins = Number(time.split(':')[1])
+  var date = new Date()
+  date.setMinutes(mins)
+  date.setHours(hh)
+  date.setSeconds(0)
+  return date.getTime()
 }
