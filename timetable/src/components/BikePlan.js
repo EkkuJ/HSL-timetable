@@ -19,7 +19,7 @@ function BikePlan (date) {
           <Icon name='bicycle' size='large' />
         </Segment>
         <Segment textAlign="center">
-          Office<br />{arrive}
+          University<br />{arrive}
         </Segment>
       </Segment.Group>
     </Container>

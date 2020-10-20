@@ -10,7 +10,7 @@ function InfoScreen () {
 
   return (
     <Container className="InfoScreen" style={{ margin: '2em' }} >
-      <Header as='h1'>Get-to-Work!</Header>
+      <Header as='h1'>Get-to-Class!</Header>
       <Segment className="plan" style={{ background: '#a6abff' }}>
         <Plan date={screenDate} />
       </Segment>

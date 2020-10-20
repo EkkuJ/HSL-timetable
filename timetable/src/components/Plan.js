@@ -10,9 +10,9 @@ const home = {
   lat: 60.161042,
   long: 24.878615
 }
-const eficode = {
-  lat: 60.169429,
-  long: 24.926066
+const university = {
+  lat: 60.186237,
+  long: 24.828348
 }
 
 // The query used to fetch data for three itineraries at a time. Coordinates can be modified from above and the date- and time-parameters are
@@ -23,7 +23,7 @@ const GET_PLAN = gql`
       date: $date,
       time: $time
       from: {lat: ${home.lat}, lon: ${home.long}}
-      to: {lat: ${eficode.lat}, lon: ${eficode.long}}
+      to: {lat: ${university.lat}, lon: ${university.long}}
       numItineraries: 3
     ) {
       itineraries {
