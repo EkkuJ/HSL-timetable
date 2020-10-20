@@ -1,5 +1,5 @@
 # HSL-timetable
-An info screen, which displays the public transportation timetable between Lauttasaarentie 28 and Eficode headquarters (Pohjoinen Rautatiekatu 25).
+An info screen, which displays the public transportation timetable between Lauttasaari and Aalto University (Otakaari 1).
 
 ## Deployment
 Get-to-Work! is deployed to [Netlify](https://frosty-shirley-b6d4ea.netlify.com "frosty-shirley-b6d4ea.netlify.com")
